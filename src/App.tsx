@@ -164,13 +164,13 @@ function Hero() {
         {/* Official wordmark typography: Montserrat 800, tight tracking. */}
         <Reveal delay={0.1}>
           <h1 className="font-display mt-8 text-center text-[clamp(2.65rem,15vw,8.75rem)] leading-[0.9] text-white sm:mt-10">
-            Build at the Root. Scale Without Limit.
+            APEX &amp; AXIS
           </h1>
         </Reveal>
 
         <Reveal delay={0.2}>
           <p className="mx-auto mt-5 max-w-[22rem] text-center font-mono text-[10px] font-medium uppercase leading-relaxed tracking-[0.24em] text-[#aaaaaa] sm:mt-6 sm:max-w-none sm:text-xs sm:tracking-[0.42em] lg:text-sm">
-            APEX &amp; AXIS — Business Architecture for Solo Operators
+            Build at the Root. Scale Without Limit.
           </p>
         </Reveal>
 
@@ -183,12 +183,6 @@ function Hero() {
             </strong>{" "}
             — the structural failure that makes a one-person business collapse
             when the founder stops working.
-          </p>
-        </Reveal>
-
-        <Reveal delay={0.35}>
-          <p className="mx-auto mt-4 max-w-3xl text-center text-[15px] leading-relaxed text-[#aaaaaa]">
-            In an FDS operation, demand generation, sales conversion, delivery, decision-making, and growth all remain locked inside the founder's calendar and memory. The firm rebuilds solo operations through four engine systems: Marketing, Sales, Operations, and Growth. Operators can begin with the free Axis Starter Kit, which includes the Axis Audit, Content Multiplier, Axis Protocol, and Architect's Stack. The Apex Vault contains the complete operating framework for the four engines plus the Operator's Guide for sequenced execution.
           </p>
         </Reveal>
 
@@ -289,6 +283,9 @@ function Diagnosis() {
                 and{" "}
                 <strong className="font-semibold text-white">growth</strong> all
                 remain locked inside the founder's calendar and memory.
+              </p>
+              <p>
+                The firm rebuilds solo operations through four engine systems: Marketing, Sales, Operations, and Growth. Operators can begin with the free Axis Starter Kit, which includes the Axis Audit, Content Multiplier, Axis Protocol, and Architect's Stack. The Apex Vault contains the complete operating framework for the four engines plus the Operator's Guide for sequenced execution.
               </p>
               <p>
                 It is not a mindset condition. It is an architecture condition —
