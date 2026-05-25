@@ -141,10 +141,30 @@ body::-webkit-scrollbar-thumb {
     aa-pulse 2.1s ease-in-out infinite;
 }
 
+.reveal-up,
+.audit-step,
+.audit-question {
+  animation: static-fade-up 0.45s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+@keyframes static-fade-up {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   .aa-stroke,
   .aa-node,
-  .aa-center-pulse {
+  .aa-center-pulse,
+  .reveal-up,
+  .audit-step,
+  .audit-question {
     animation-duration: 0.001ms !important;
     animation-delay: 0s !important;
   }

@@ -1,4 +1,3 @@
-import { motion, type Variants } from "framer-motion";
 import {
   Megaphone,
   HandCoins,
@@ -17,20 +16,6 @@ import AxisAudit from "./components/AxisAudit";
 /*  Motion                                                             */
 /* ------------------------------------------------------------------ */
 
-const fadeUp: Variants = {
-  hidden: { opacity: 0, y: 14 },
-  show: {
-    opacity: 1,
-    y: 0,
-    transition: { duration: 0.55, ease: [0.22, 1, 0.36, 1] },
-  },
-};
-
-const stagger: Variants = {
-  hidden: {},
-  show: { transition: { staggerChildren: 0.07, delayChildren: 0.04 } },
-};
-
 function Reveal({
   children,
   className,
@@ -41,16 +26,12 @@ function Reveal({
   delay?: number;
 }) {
   return (
-    <motion.div
-      variants={fadeUp}
-      initial="hidden"
-      whileInView="show"
-      viewport={{ once: true, margin: "-80px" }}
-      transition={{ delay }}
-      className={className}
+    <div
+      className={`reveal-up ${className ?? ""}`}
+      style={{ transitionDelay: `${delay}s` }}
     >
       {children}
-    </motion.div>
+    </div>
   );
 }
 
@@ -183,6 +164,14 @@ function Hero() {
             — the structural failure that makes a one-person business collapse
             when the founder stops working.
           </p>
+        </Reveal>
+
+        <Reveal delay={0.34}>
+          <div className="mx-auto mt-6 max-w-3xl text-center font-mono text-[10px] uppercase tracking-[0.22em] text-[#8a8a8a] sm:tracking-[0.28em]">
+            <p>
+              By Sonudev (Sonu), Founder — Apex &amp; Axis. Published 2026-05-24.
+            </p>
+          </div>
         </Reveal>
 
         <Reveal delay={0.38}>
@@ -371,17 +360,11 @@ function Engines() {
           </Reveal>
         </div>
 
-        <motion.div
-          variants={stagger}
-          initial="hidden"
-          whileInView="show"
-          viewport={{ once: true, margin: "-80px" }}
-          className="mt-16 grid gap-px bg-[#1c1c1c] md:grid-cols-2"
-        >
+        <div className="mt-16 grid gap-px bg-[#1c1c1c] md:grid-cols-2">
           {ENGINES.map((e) => (
             <EngineCard key={e.index} engine={e} />
           ))}
-        </motion.div>
+        </div>
       </div>
     </section>
   );
@@ -390,10 +373,7 @@ function Engines() {
 function EngineCard({ engine }: { engine: Engine }) {
   const { Icon } = engine;
   return (
-    <motion.article
-      variants={fadeUp}
-      className="responsive-surface group relative flex flex-col gap-8 bg-[#0a0a0a] p-8 transition-colors hover:bg-[#0f0f0f] lg:p-12"
-    >
+    <article className="responsive-surface group relative flex flex-col gap-8 bg-[#0a0a0a] p-8 transition-colors hover:bg-[#0f0f0f] lg:p-12">
       <div className="flex items-start justify-between">
         <div className="flex h-12 w-12 items-center justify-center border border-[#2a2a2a] bg-[#0f0f0f]">
           <Icon className="h-5 w-5 text-[#7b2fbe]" strokeWidth={1.75} />
@@ -418,7 +398,7 @@ function EngineCard({ engine }: { engine: Engine }) {
         </p>
         <p className="mt-2 text-sm text-[#e5e5e5]">{engine.outputs}</p>
       </div>
-    </motion.article>
+    </article>
   );
 }
 
@@ -675,7 +655,7 @@ function Footer() {
     <footer className="bg-[#0a0a0a]">
       <div className="mx-auto max-w-7xl px-4 py-14 sm:px-6 sm:py-16 lg:px-10">
         <div className="grid gap-12 md:grid-cols-12">
-          <div className="md:col-span-6">
+          <div className="md:col-span-3">
             <Wordmark size={22} />
             <p className="mt-6 max-w-sm text-sm leading-relaxed text-[#aaaaaa]">
               Business architecture for the solo operator. Build at the root.
@@ -714,6 +694,34 @@ function Footer() {
               <li>
                 <a href="#vault" className="transition-colors hover:text-white">
                   Apex Vault
+                </a>
+              </li>
+            </ul>
+          </div>
+
+          <div className="md:col-span-3">
+            <p className="font-mono text-[10px] font-medium uppercase tracking-[0.28em] text-[#8a8a8a]">
+              Resources
+            </p>
+            <ul className="mt-5 space-y-3 text-sm text-[#e5e5e5]">
+              <li>
+                <a href="/" className="transition-colors hover:text-white">
+                  Home
+                </a>
+              </li>
+              <li>
+                <a href="/about.html" className="transition-colors hover:text-white">
+                  About Apex &amp; Axis
+                </a>
+              </li>
+              <li>
+                <a href="https://whop.com/joined/apex-axis/products/axis-starter-kit/" target="_blank" rel="noreferrer" className="inline-flex items-center gap-2 transition-colors hover:text-white">
+                  Axis Starter Kit <ArrowUpRight className="h-3 w-3" />
+                </a>
+              </li>
+              <li>
+                <a href="https://whop.com/joined/apex-axis/products/apex-vault-blueprint/" target="_blank" rel="noreferrer" className="inline-flex items-center gap-2 transition-colors hover:text-white">
+                  Apex Vault <ArrowUpRight className="h-3 w-3" />
                 </a>
               </li>
             </ul>
