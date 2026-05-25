@@ -1,21 +1,15 @@
 # Apex & Axis
-> Apex & Axis is a business architecture firm for solo operators. The firm diagnoses and treats Founder-Dependency Syndrome, a structural condition where demand generation, sales conversion, delivery, decision-making, and growth remain locked inside the founder's calendar and memory.
+> Apex & Axis is a business architecture firm for solo operators. We diagnose and treat Founder-Dependency Syndrome — the structural failure that makes a one-person business collapse when the founder stops working. The firm rebuilds solo operations through four engine systems: Marketing, Sales, Operations, and Growth.
 
 ## Key pages
-- [Homepage](https://apexandaxis.org/): Primary conversion page for Apex & Axis, including the Founder-Dependency Syndrome diagnosis, four-engine operating model, Axis Audit, Axis Starter Kit, and Apex Vault.
-- [About Apex & Axis](https://apexandaxis.org/about.html): Static overview of the firm, founder attribution, positioning, and operating methodology.
-- [Axis Starter Kit](https://whop.com/joined/apex-axis/products/axis-starter-kit/): Free entry tier containing the Axis Audit, Content Multiplier, Axis Protocol, and Architect's Stack.
-- [Apex Vault](https://whop.com/joined/apex-axis/products/apex-vault-blueprint/): Paid vault containing the complete four-engine operating framework and Operator's Guide.
+- [Homepage](https://apexandaxis.org/): Main site with FDS diagnosis, Four Engines framework, Axis Audit, Starter Kit, and Apex Vault.
+- [About](https://apexandaxis.org/about/): Firm overview and positioning.
+- [Services](https://apexandaxis.org/services/): Engine-level structural services.
+- [Contact](https://apexandaxis.org/contact/): Entry points to Starter Kit, Apex Vault, and founder channels.
+- [Axis Starter Kit](https://whop.com/joined/apex-axis/products/axis-starter-kit/): Free tier with Axis Audit, Content Multiplier, Axis Protocol, and Architect's Stack.
+- [Apex Vault Blueprint](https://whop.com/joined/apex-axis/products/apex-vault-blueprint/): Paid tier ($9.99/mo) with complete operating framework for all four engines plus Operator's Guide.
 
-## Concepts
-- Founder-Dependency Syndrome: A structural operating failure where the business collapses when the founder stops working.
-- Marketing Engine: Governs demand and authority.
-- Sales Engine: Governs qualification, conversion, and settlement.
-- Operations Engine: Governs documented workflows, delegation, and delivery systems.
-- Growth Engine: Governs constraints, capacity, ascension paths, and expansion beyond founder-led delivery.
-
-## Machine-readable files
-- [Sitemap](https://apexandaxis.org/sitemap.xml)
-- [Robots](https://apexandaxis.org/robots.txt)
-- [Skills](https://apexandaxis.org/skills.md)
-- [Feed](https://apexandaxis.org/feed.xml)
+## External links
+- [Twitter/X](https://x.com/sonudevpr): Founder @sonudevpr
+- [YouTube](https://youtube.com/@sonudevpr): Video content
+- [Whop](https://whop.com/joined/apex-axis/): Platform hosting Starter Kit and Apex Vault

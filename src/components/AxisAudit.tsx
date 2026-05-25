@@ -1,4 +1,5 @@
 import { useMemo, useState } from "react";
+import { motion, AnimatePresence } from "framer-motion";
 import { ArrowUpRight, ShieldAlert, TrendingUp, Cog, HandCoins, Megaphone } from "lucide-react";
 
 /* ------------------------------------------------------------------ */
@@ -227,9 +228,16 @@ export default function AxisAudit() {
 
       {/* Engine Sections Flow */}
       <div className="relative min-h-[400px]">
-        <>
+        <AnimatePresence mode="wait">
           {!submitted ? (
-            <div key={currentEngineKey} className="audit-step p-4 sm:p-6 lg:p-8">
+            <motion.div
+              key={currentEngineKey}
+              initial={{ opacity: 0, x: 20 }}
+              animate={{ opacity: 1, x: 0 }}
+              exit={{ opacity: 0, x: -20 }}
+              transition={{ duration: 0.3, ease: "easeOut" }}
+              className="p-4 sm:p-6 lg:p-8"
+            >
               <div className="mb-8">
                 <div className="flex items-center gap-3">
                   {(() => {
@@ -249,7 +257,12 @@ export default function AxisAudit() {
                 {currentEngineQuestions.map((q, idx) => {
                   const answer = answers[q.id];
                   return (
-                    <div key={q.id} className="audit-question" style={{ transitionDelay: `${idx * 0.05}s` }}>
+                    <motion.div 
+                      key={q.id}
+                      initial={{ opacity: 0, y: 10 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{ delay: idx * 0.05 }}
+                    >
                       <div className="flex items-start gap-3 sm:gap-4">
                         <span className="mt-1 font-mono text-[10px] uppercase tracking-[0.24em] text-[#7b2fbe]">
                           {String(idx + 1).padStart(2, "0")}
@@ -281,7 +294,7 @@ export default function AxisAudit() {
                           No
                         </button>
                       </div>
-                    </div>
+                    </motion.div>
                   );
                 })}
               </div>
@@ -309,9 +322,15 @@ export default function AxisAudit() {
                   <ArrowUpRight className="h-4 w-4" />
                 </button>
               </div>
-            </div>
+            </motion.div>
           ) : (
-            <div key="results" className="audit-step space-y-6 p-4 sm:space-y-8 sm:p-6 lg:p-8">
+            <motion.div
+              key="results"
+              initial={{ opacity: 0, scale: 0.98 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
+              className="space-y-6 p-4 sm:space-y-8 sm:p-6 lg:p-8"
+            >
               {zone && weakestEngine && (
                 <>
                   {/* Layer 01 — Zone Verdict */}
@@ -455,9 +474,9 @@ export default function AxisAudit() {
                   </div>
                 </>
               )}
-            </div>
+            </motion.div>
           )}
-        </>
+        </AnimatePresence>
       </div>
     </div>
   );

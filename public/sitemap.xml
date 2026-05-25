@@ -3,19 +3,25 @@
   <url>
     <loc>https://apexandaxis.org/</loc>
     <lastmod>2026-05-24</lastmod>
-    <changefreq>weekly</changefreq>
+    <changefreq>monthly</changefreq>
     <priority>1.0</priority>
   </url>
   <url>
-    <loc>https://apexandaxis.org/about.html</loc>
+    <loc>https://apexandaxis.org/about/</loc>
     <lastmod>2026-05-24</lastmod>
     <changefreq>monthly</changefreq>
-    <priority>0.6</priority>
+    <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://apexandaxis.org/llms.txt</loc>
+    <loc>https://apexandaxis.org/services/</loc>
     <lastmod>2026-05-24</lastmod>
     <changefreq>monthly</changefreq>
-    <priority>0.4</priority>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://apexandaxis.org/contact/</loc>
+    <lastmod>2026-05-24</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
   </url>
 </urlset>

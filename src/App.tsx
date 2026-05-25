@@ -1,3 +1,4 @@
+import { motion, type Variants } from "framer-motion";
 import {
   Megaphone,
   HandCoins,
@@ -8,13 +9,28 @@ import {
   Minus,
   Check,
 } from "lucide-react";
-import type { ReactNode } from "react";
+import { Suspense, lazy, type ReactNode } from "react";
 import Logo from "./components/Logo";
-import AxisAudit from "./components/AxisAudit";
+
+const AxisAudit = lazy(() => import("./components/AxisAudit"));
 
 /* ------------------------------------------------------------------ */
 /*  Motion                                                             */
 /* ------------------------------------------------------------------ */
+
+const fadeUp: Variants = {
+  hidden: { opacity: 0, y: 14 },
+  show: {
+    opacity: 1,
+    y: 0,
+    transition: { duration: 0.55, ease: [0.22, 1, 0.36, 1] },
+  },
+};
+
+const stagger: Variants = {
+  hidden: {},
+  show: { transition: { staggerChildren: 0.07, delayChildren: 0.04 } },
+};
 
 function Reveal({
   children,
@@ -26,12 +42,16 @@ function Reveal({
   delay?: number;
 }) {
   return (
-    <div
-      className={`reveal-up ${className ?? ""}`}
-      style={{ transitionDelay: `${delay}s` }}
+    <motion.div
+      variants={fadeUp}
+      initial="hidden"
+      whileInView="show"
+      viewport={{ once: true, margin: "-80px" }}
+      transition={{ delay }}
+      className={className}
     >
       {children}
-    </div>
+    </motion.div>
   );
 }
 
@@ -144,13 +164,13 @@ function Hero() {
         {/* Official wordmark typography: Montserrat 800, tight tracking. */}
         <Reveal delay={0.1}>
           <h1 className="font-display mt-8 text-center text-[clamp(2.65rem,15vw,8.75rem)] leading-[0.9] text-white sm:mt-10">
-            APEX &amp; AXIS
+            Build at the Root. Scale Without Limit.
           </h1>
         </Reveal>
 
         <Reveal delay={0.2}>
           <p className="mx-auto mt-5 max-w-[22rem] text-center font-mono text-[10px] font-medium uppercase leading-relaxed tracking-[0.24em] text-[#aaaaaa] sm:mt-6 sm:max-w-none sm:text-xs sm:tracking-[0.42em] lg:text-sm">
-            Build at the Root. Scale Without Limit.
+            APEX &amp; AXIS — Business Architecture for Solo Operators
           </p>
         </Reveal>
 
@@ -166,12 +186,16 @@ function Hero() {
           </p>
         </Reveal>
 
-        <Reveal delay={0.34}>
-          <div className="mx-auto mt-6 max-w-3xl text-center font-mono text-[10px] uppercase tracking-[0.22em] text-[#8a8a8a] sm:tracking-[0.28em]">
-            <p>
-              By Sonudev (Sonu), Founder — Apex &amp; Axis. Published 2026-05-24.
-            </p>
-          </div>
+        <Reveal delay={0.35}>
+          <p className="mx-auto mt-4 max-w-3xl text-center text-[15px] leading-relaxed text-[#aaaaaa]">
+            In an FDS operation, demand generation, sales conversion, delivery, decision-making, and growth all remain locked inside the founder's calendar and memory. The firm rebuilds solo operations through four engine systems: Marketing, Sales, Operations, and Growth. Operators can begin with the free Axis Starter Kit, which includes the Axis Audit, Content Multiplier, Axis Protocol, and Architect's Stack. The Apex Vault contains the complete operating framework for the four engines plus the Operator's Guide for sequenced execution.
+          </p>
+        </Reveal>
+
+        <Reveal delay={0.36}>
+          <p className="mx-auto mt-4 text-center font-mono text-[10px] uppercase tracking-[0.22em] text-[#8a8a8a] sm:text-[11px] sm:tracking-[0.28em]">
+            By SONUDEV P R — Founder, Apex &amp; Axis — Updated May 2026
+          </p>
         </Reveal>
 
         <Reveal delay={0.38}>
@@ -360,11 +384,17 @@ function Engines() {
           </Reveal>
         </div>
 
-        <div className="mt-16 grid gap-px bg-[#1c1c1c] md:grid-cols-2">
+        <motion.div
+          variants={stagger}
+          initial="hidden"
+          whileInView="show"
+          viewport={{ once: true, margin: "-80px" }}
+          className="mt-16 grid gap-px bg-[#1c1c1c] md:grid-cols-2"
+        >
           {ENGINES.map((e) => (
             <EngineCard key={e.index} engine={e} />
           ))}
-        </div>
+        </motion.div>
       </div>
     </section>
   );
@@ -373,7 +403,10 @@ function Engines() {
 function EngineCard({ engine }: { engine: Engine }) {
   const { Icon } = engine;
   return (
-    <article className="responsive-surface group relative flex flex-col gap-8 bg-[#0a0a0a] p-8 transition-colors hover:bg-[#0f0f0f] lg:p-12">
+    <motion.article
+      variants={fadeUp}
+      className="responsive-surface group relative flex flex-col gap-8 bg-[#0a0a0a] p-8 transition-colors hover:bg-[#0f0f0f] lg:p-12"
+    >
       <div className="flex items-start justify-between">
         <div className="flex h-12 w-12 items-center justify-center border border-[#2a2a2a] bg-[#0f0f0f]">
           <Icon className="h-5 w-5 text-[#7b2fbe]" strokeWidth={1.75} />
@@ -398,7 +431,7 @@ function EngineCard({ engine }: { engine: Engine }) {
         </p>
         <p className="mt-2 text-sm text-[#e5e5e5]">{engine.outputs}</p>
       </div>
-    </article>
+    </motion.article>
   );
 }
 
@@ -430,7 +463,20 @@ function AuditSection() {
 
         <Reveal delay={0.2}>
           <div className="mt-12">
-            <AxisAudit />
+            <Suspense
+              fallback={
+                <div className="border border-[#1c1c1c] bg-[#0f0f0f] p-6 sm:p-8">
+                  <p className="font-mono text-[10px] uppercase tracking-[0.28em] text-[#7b2fbe]">
+                    Loading Audit
+                  </p>
+                  <p className="mt-4 text-sm leading-relaxed text-[#aaaaaa]">
+                    The full 20-question diagnostic is loading.
+                  </p>
+                </div>
+              }
+            >
+              <AxisAudit />
+            </Suspense>
           </div>
         </Reveal>
       </div>
@@ -655,7 +701,7 @@ function Footer() {
     <footer className="bg-[#0a0a0a]">
       <div className="mx-auto max-w-7xl px-4 py-14 sm:px-6 sm:py-16 lg:px-10">
         <div className="grid gap-12 md:grid-cols-12">
-          <div className="md:col-span-3">
+          <div className="md:col-span-6">
             <Wordmark size={22} />
             <p className="mt-6 max-w-sm text-sm leading-relaxed text-[#aaaaaa]">
               Business architecture for the solo operator. Build at the root.
@@ -694,34 +740,6 @@ function Footer() {
               <li>
                 <a href="#vault" className="transition-colors hover:text-white">
                   Apex Vault
-                </a>
-              </li>
-            </ul>
-          </div>
-
-          <div className="md:col-span-3">
-            <p className="font-mono text-[10px] font-medium uppercase tracking-[0.28em] text-[#8a8a8a]">
-              Resources
-            </p>
-            <ul className="mt-5 space-y-3 text-sm text-[#e5e5e5]">
-              <li>
-                <a href="/" className="transition-colors hover:text-white">
-                  Home
-                </a>
-              </li>
-              <li>
-                <a href="/about.html" className="transition-colors hover:text-white">
-                  About Apex &amp; Axis
-                </a>
-              </li>
-              <li>
-                <a href="https://whop.com/joined/apex-axis/products/axis-starter-kit/" target="_blank" rel="noreferrer" className="inline-flex items-center gap-2 transition-colors hover:text-white">
-                  Axis Starter Kit <ArrowUpRight className="h-3 w-3" />
-                </a>
-              </li>
-              <li>
-                <a href="https://whop.com/joined/apex-axis/products/apex-vault-blueprint/" target="_blank" rel="noreferrer" className="inline-flex items-center gap-2 transition-colors hover:text-white">
-                  Apex Vault <ArrowUpRight className="h-3 w-3" />
                 </a>
               </li>
             </ul>
@@ -769,8 +787,14 @@ function Footer() {
         <div className="mt-12 h-px w-full bg-[#1c1c1c]" />
 
         <div className="mt-8 flex flex-col items-start justify-between gap-4 font-mono text-[10px] font-medium uppercase tracking-[0.28em] text-[#8a8a8a] md:flex-row md:items-center">
-          <span>© 2026 Apex &amp; Axis — All systems reserved.</span>
-          <span>Build at the Root. Scale Without Limit.</span>
+          <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:gap-6">
+            <span>© 2026 Apex &amp; Axis — All systems reserved.</span>
+            <span>By SONUDEV P R — Founder, Apex &amp; Axis</span>
+          </div>
+          <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:gap-6">
+            <span>Published: 2026-05-24</span>
+            <span>Build at the Root. Scale Without Limit.</span>
+          </div>
         </div>
       </div>
     </footer>
