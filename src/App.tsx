@@ -1,4 +1,4 @@
-import { motion, type Variants } from "framer-motion";
+import { motion, AnimatePresence, type Variants } from "framer-motion";
 import {
   Megaphone,
   HandCoins,
@@ -8,8 +8,9 @@ import {
   Plus,
   Minus,
   Check,
+  X,
 } from "lucide-react";
-import { Suspense, lazy, type ReactNode } from "react";
+import { Suspense, lazy, useEffect, useState, type ReactNode } from "react";
 import Logo from "./components/Logo";
 
 const AxisAudit = lazy(() => import("./components/AxisAudit"));
@@ -84,7 +85,7 @@ function Wordmark({ size = 22, animate = false }: { size?: number; animate?: boo
 /*  NAV                                                                */
 /* ------------------------------------------------------------------ */
 
-function Nav() {
+function Nav({ onOpenContact }: { onOpenContact: () => void }) {
   return (
     <header className="sticky top-0 z-50 border-b border-[#1c1c1c] bg-[#0a0a0a]/85 backdrop-blur-md">
       <div className="mx-auto flex max-w-7xl items-center justify-between gap-4 px-4 py-3 sm:px-6 sm:py-4 lg:px-10">
@@ -92,39 +93,261 @@ function Nav() {
           <Wordmark size={22} />
         </a>
 
-        <nav
-          aria-label="Core sections"
-          className="hidden items-center gap-8 font-mono text-[11px] font-medium uppercase tracking-[0.24em] text-[#aaaaaa] lg:flex"
-        >
-          <a href="#diagnosis" className="transition-colors hover:text-white">
-            Diagnosis
-          </a>
-          <a href="#engines" className="transition-colors hover:text-white">
-            Four Engines
-          </a>
-          <a href="#axis-audit" className="transition-colors hover:text-white">
-            Axis Audit
-          </a>
-          <a href="#starter-kit" className="transition-colors hover:text-white">
-            Starter Kit
-          </a>
-          <a href="#vault" className="transition-colors hover:text-white">
-            Apex Vault
-          </a>
-        </nav>
-
-        <a
-          href="https://whop.com/joined/apex-axis/products/apex-vault-blueprint/"
-          target="_blank"
-          rel="noreferrer"
+        <button
+          type="button"
+          onClick={onOpenContact}
+          aria-haspopup="dialog"
           className="group inline-flex shrink-0 items-center gap-2 border border-[#2a2a2a] bg-[#0f0f0f] px-3 py-2.5 font-mono text-[10px] font-medium uppercase tracking-[0.18em] text-white transition-colors hover:border-[#7b2fbe] hover:bg-[#141414] sm:px-4 sm:text-[11px] sm:tracking-[0.24em]"
         >
-          <span className="hidden sm:inline">Enter the Vault</span>
-          <span className="sm:hidden">Vault</span>
+          Contact Us
           <ArrowUpRight className="h-3.5 w-3.5 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
-        </a>
+        </button>
       </div>
     </header>
+  );
+}
+
+/* ------------------------------------------------------------------ */
+/*  CONTACT MODAL                                                      */
+/* ------------------------------------------------------------------ */
+
+function ContactModal({ open, onClose }: { open: boolean; onClose: () => void }) {
+  useEffect(() => {
+    if (!open) return;
+    const handleEscape = (e: KeyboardEvent) => {
+      if (e.key === "Escape") onClose();
+    };
+    document.addEventListener("keydown", handleEscape);
+    document.body.style.overflow = "hidden";
+    return () => {
+      document.removeEventListener("keydown", handleEscape);
+      document.body.style.overflow = "";
+    };
+  }, [open, onClose]);
+
+  return (
+    <AnimatePresence>
+      {open && (
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+          transition={{ duration: 0.2 }}
+          className="fixed inset-0 z-[100] flex items-center justify-center p-4 sm:p-6"
+          role="dialog"
+          aria-modal="true"
+          aria-labelledby="contact-modal-title"
+        >
+          {/* Backdrop */}
+          <button
+            type="button"
+            aria-label="Close contact"
+            onClick={onClose}
+            className="absolute inset-0 bg-[#0a0a0a]/85 backdrop-blur-md"
+          />
+
+          {/* Panel */}
+          <motion.div
+            initial={{ opacity: 0, y: 16, scale: 0.98 }}
+            animate={{ opacity: 1, y: 0, scale: 1 }}
+            exit={{ opacity: 0, y: 12, scale: 0.98 }}
+            transition={{ duration: 0.28, ease: [0.22, 1, 0.36, 1] }}
+            className="relative w-full max-w-lg border border-[#7b2fbe] bg-[#0f0f0f]"
+          >
+            <div className="flex items-start justify-between gap-4 border-b border-[#1c1c1c] p-5 sm:p-6">
+              <div>
+                <p className="font-mono text-[10px] font-medium uppercase tracking-[0.28em] text-[#7b2fbe]">
+                  Contact Card / C-01
+                </p>
+                <h3
+                  id="contact-modal-title"
+                  className="font-display mt-2 text-2xl leading-[0.95] text-white sm:text-3xl"
+                >
+                  CONTACT US
+                </h3>
+              </div>
+              <button
+                type="button"
+                onClick={onClose}
+                aria-label="Close"
+                className="flex h-9 w-9 flex-none items-center justify-center border border-[#2a2a2a] text-[#aaaaaa] transition-colors hover:border-white hover:text-white"
+              >
+                <X className="h-4 w-4" />
+              </button>
+            </div>
+
+            {/* Custom pricing copy */}
+            <div className="border-b border-[#1c1c1c] p-5 sm:p-6">
+              <p className="font-mono text-[10px] font-medium uppercase tracking-[0.28em] text-[#7b2fbe]">
+                Custom Engagements
+              </p>
+              <p className="mt-3 text-[15px] leading-relaxed text-[#e5e5e5]">
+                The Starter Kit and Apex Vault cover the standard track. For
+                operators who need a{" "}
+                <strong className="font-semibold text-white">
+                  tailored architecture
+                </strong>{" "}
+                — multi-engine rebuilds, custom protocols, or pricing structured
+                to your firm — the channels below open a direct line. Each
+                engagement is scoped and quoted individually.
+              </p>
+            </div>
+
+            <div className="space-y-3 p-5 sm:p-6">
+              <a
+                href="https://whop.com/joined/apex-axis/"
+                target="_blank"
+                rel="noreferrer"
+                className="group flex items-center justify-between gap-4 border border-[#1c1c1c] bg-[#0a0a0a] p-5 transition-colors hover:border-[#7b2fbe]"
+              >
+                <div>
+                  <p className="font-mono text-[10px] font-medium uppercase tracking-[0.28em] text-[#7b2fbe]">
+                    Platform
+                  </p>
+                  <p className="font-display mt-2 text-lg leading-[1] text-white">
+                    WHOP
+                  </p>
+                  <p className="mt-2 text-xs leading-relaxed text-[#aaaaaa]">
+                    Starter Kit and Apex Vault — direct access.
+                  </p>
+                </div>
+                <ArrowUpRight className="h-5 w-5 flex-none text-[#aaaaaa] transition-all group-hover:text-white group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
+              </a>
+
+              <a
+                href="https://x.com/sonudevpr"
+                target="_blank"
+                rel="noreferrer"
+                className="group flex items-center justify-between gap-4 border border-[#1c1c1c] bg-[#0a0a0a] p-5 transition-colors hover:border-[#7b2fbe]"
+              >
+                <div>
+                  <p className="font-mono text-[10px] font-medium uppercase tracking-[0.28em] text-[#7b2fbe]">
+                    Signal / Custom Inquiries
+                  </p>
+                  <p className="font-display mt-2 text-lg leading-[1] text-white">
+                    X / @SONUDEVPR
+                  </p>
+                  <p className="mt-2 text-xs leading-relaxed text-[#aaaaaa]">
+                    DM for custom plans and bespoke engagements.
+                  </p>
+                </div>
+                <ArrowUpRight className="h-5 w-5 flex-none text-[#aaaaaa] transition-all group-hover:text-white group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
+              </a>
+            </div>
+
+            <div className="border-t border-[#1c1c1c] p-5 sm:p-6">
+              <p className="font-mono text-[10px] uppercase tracking-[0.28em] text-[#8a8a8a]">
+                No forms. No queues. Direct channels only.
+              </p>
+            </div>
+          </motion.div>
+        </motion.div>
+      )}
+    </AnimatePresence>
+  );
+}
+
+/* ------------------------------------------------------------------ */
+/*  CONTACT MODAL                                                      */
+/* ------------------------------------------------------------------ */
+
+function ContactSection() {
+  return (
+    <section id="contact" className="border-b border-[#1c1c1c]">
+      <div className="mx-auto max-w-7xl px-4 py-20 sm:px-6 sm:py-24 lg:px-10 lg:py-32">
+        <Reveal>
+          <SectionLabel index="06" label="Direct Channels" />
+        </Reveal>
+
+        <Reveal delay={0.1}>
+          <div className="mt-10 border border-[#7b2fbe] bg-[#0f0f0f]">
+            {/* Header */}
+            <div className="flex flex-col gap-4 border-b border-[#1c1c1c] p-6 sm:flex-row sm:items-end sm:justify-between sm:p-8 lg:p-10">
+              <div>
+                <p className="font-mono text-[10px] font-medium uppercase tracking-[0.28em] text-[#7b2fbe]">
+                  Contact Card / C-01
+                </p>
+                <h2 className="font-display mt-3 text-4xl leading-[0.95] text-white sm:text-5xl lg:text-6xl">
+                  CONTACT US
+                </h2>
+              </div>
+              <p className="font-mono text-[10px] font-medium uppercase tracking-[0.28em] text-[#8a8a8a] sm:text-right">
+                No forms. No queues.
+                <br className="hidden sm:inline" />
+                Direct channels only.
+              </p>
+            </div>
+
+            {/* Body — custom pricing copy */}
+            <div className="border-b border-[#1c1c1c] p-6 sm:p-8 lg:p-10">
+              <p className="font-mono text-[10px] font-medium uppercase tracking-[0.28em] text-[#7b2fbe]">
+                Custom Engagements
+              </p>
+              <p className="mt-4 max-w-3xl text-[17px] leading-relaxed text-[#e5e5e5] sm:text-lg">
+                The Starter Kit and Apex Vault cover the standard architecture
+                track. Operators with{" "}
+                <strong className="font-semibold text-white">
+                  bespoke requirements
+                </strong>{" "}
+                — multi-engine rebuilds, team architecture, custom protocols, or
+                tailored pricing structures — should reach out directly.
+              </p>
+              <p className="mt-4 max-w-3xl text-[15px] leading-relaxed text-[#aaaaaa]">
+                Contact us for{" "}
+                <strong className="font-semibold text-white">custom plans</strong>{" "}
+                and structural consulting beyond the public tiers. Pricing is
+                quoted per engagement.
+              </p>
+            </div>
+
+            {/* Channels */}
+            <div className="grid gap-px bg-[#1c1c1c] sm:grid-cols-2">
+              <a
+                href="https://whop.com/joined/apex-axis/"
+                target="_blank"
+                rel="noreferrer"
+                className="group flex items-start justify-between gap-4 bg-[#0a0a0a] p-6 transition-colors hover:bg-[#0f0f0f] sm:p-8 lg:p-10"
+              >
+                <div>
+                  <p className="font-mono text-[10px] font-medium uppercase tracking-[0.28em] text-[#7b2fbe]">
+                    Platform
+                  </p>
+                  <p className="font-display mt-3 text-2xl leading-[1] text-white sm:text-3xl">
+                    WHOP
+                  </p>
+                  <p className="mt-3 text-sm leading-relaxed text-[#aaaaaa]">
+                    Starter Kit and Apex Vault — direct access to the firm's
+                    productized tiers.
+                  </p>
+                </div>
+                <ArrowUpRight className="h-5 w-5 flex-none text-[#aaaaaa] transition-all group-hover:text-white group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
+              </a>
+
+              <a
+                href="https://x.com/sonudevpr"
+                target="_blank"
+                rel="noreferrer"
+                className="group flex items-start justify-between gap-4 bg-[#0a0a0a] p-6 transition-colors hover:bg-[#0f0f0f] sm:p-8 lg:p-10"
+              >
+                <div>
+                  <p className="font-mono text-[10px] font-medium uppercase tracking-[0.28em] text-[#7b2fbe]">
+                    Signal / Custom Inquiries
+                  </p>
+                  <p className="font-display mt-3 text-2xl leading-[1] text-white sm:text-3xl">
+                    X / @SONUDEVPR
+                  </p>
+                  <p className="mt-3 text-sm leading-relaxed text-[#aaaaaa]">
+                    Founder channel. DM for custom plans, bespoke engagements,
+                    and pricing outside the standard tiers.
+                  </p>
+                </div>
+                <ArrowUpRight className="h-5 w-5 flex-none text-[#aaaaaa] transition-all group-hover:text-white group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
+              </a>
+            </div>
+          </div>
+        </Reveal>
+      </div>
+    </section>
   );
 }
 
@@ -188,7 +411,7 @@ function Hero() {
 
         <Reveal delay={0.36}>
           <p className="mx-auto mt-4 text-center font-mono text-[10px] uppercase tracking-[0.22em] text-[#8a8a8a] sm:text-[11px] sm:tracking-[0.28em]">
-            By SONUDEV P R — Founder, Apex &amp; Axis — Updated May 2026
+            By SONUDEV P R — Founder, Apex &amp; Axis
           </p>
         </Reveal>
 
@@ -586,15 +809,15 @@ function Vault() {
               THE APEX VAULT.
             </h2>
             <div className="mt-6 flex items-baseline gap-3">
-              <span className="font-display text-6xl text-white">$9.99</span>
+              <span className="font-display text-5xl text-white sm:text-6xl">$9.99</span>
               <span className="font-mono text-[11px] font-medium uppercase tracking-[0.28em] text-[#8a8a8a]">
-                / month
+                / lifetime access
               </span>
             </div>
             <p className="mt-8 max-w-md text-[15px] leading-relaxed text-[#aaaaaa]">
-              The complete operating framework for the four engines, plus the
-              Operator's Guide for sequenced execution. Released and maintained
-              inside the firm's working vault.
+              One-time payment. Lifetime access. The complete operating framework
+              for the four engines, plus the Operator's Guide for sequenced
+              execution. Released and maintained inside the firm's working vault.
             </p>
             <a
               href="https://whop.com/joined/apex-axis/products/apex-vault-blueprint/"
@@ -653,7 +876,7 @@ function Closing() {
     <section className="border-b border-[#1c1c1c]">
       <div className="mx-auto max-w-7xl px-4 py-20 sm:px-6 sm:py-24 lg:px-10 lg:py-32">
         <Reveal>
-          <SectionLabel index="06" label="Position" />
+          <SectionLabel index="07" label="Position" />
         </Reveal>
         <Reveal delay={0.1}>
           <p className="font-display mt-10 max-w-5xl text-4xl leading-[1.05] text-white lg:text-6xl">
@@ -803,9 +1026,11 @@ function Footer() {
 /* ------------------------------------------------------------------ */
 
 export default function App() {
+  const [contactOpen, setContactOpen] = useState(false);
+
   return (
     <div className="min-h-screen bg-[#0a0a0a] text-white antialiased">
-      <Nav />
+      <Nav onOpenContact={() => setContactOpen(true)} />
       <main id="main-content">
         <Hero />
         <Diagnosis />
@@ -813,9 +1038,11 @@ export default function App() {
         <AuditSection />
         <StarterKit />
         <Vault />
+        <ContactSection />
         <Closing />
       </main>
       <Footer />
+      <ContactModal open={contactOpen} onClose={() => setContactOpen(false)} />
     </div>
   );
 }
