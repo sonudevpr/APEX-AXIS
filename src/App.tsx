@@ -9,6 +9,7 @@ import {
   Minus,
   Check,
   X,
+  Menu,
 } from "lucide-react";
 import { Suspense, lazy, useEffect, useState, type ReactNode } from "react";
 import Logo from "./components/Logo";
@@ -86,75 +87,104 @@ function Wordmark({ size = 22, animate = false }: { size?: number; animate?: boo
 /* ------------------------------------------------------------------ */
 
 function Nav({ onOpenContact }: { onOpenContact: () => void }) {
-  const [menuOpen, setMenuOpen] = useState(false);
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
-  const sections = [
-    { id: "diagnosis", label: "01 Diagnosis" },
-    { id: "engines", label: "02 Engines" },
-    { id: "axis-audit", label: "03 Audit" },
-    { id: "starter-kit", label: "04 Starter" },
-    { id: "vault", label: "05 Vault" },
+  const links = [
+    { href: "#diagnosis", label: "Diagnosis" },
+    { href: "#engines", label: "Engines" },
+    { href: "#axis-audit", label: "Audit" },
+    { href: "#starter-kit", label: "Starter" },
+    { href: "#vault", label: "Vault" },
   ];
 
   return (
-    <header className="sticky top-0 z-50 border-b border-[#1c1c1c] bg-[#0a0a0a]/85 backdrop-blur-md">
-      <div className="mx-auto flex max-w-7xl items-center justify-between gap-4 px-4 py-3 sm:px-6 sm:py-4 lg:px-10">
-        <div className="flex items-center gap-6">
-          <a href="#top" className="group">
-            <Wordmark size={22} />
-          </a>
+    <header className="sticky top-0 z-50 border-b border-[#1c1c1c] bg-[#0a0a0a]/90 backdrop-blur-md">
+      <div className="mx-auto flex max-w-7xl items-center justify-between px-4 py-4 sm:px-6 lg:px-10">
+        {/* Logo */}
+        <a href="#top" className="group z-50">
+          <Wordmark size={22} />
+        </a>
 
-          {/* Minimal Section Switcher */}
-          <div className="relative hidden md:block">
-            <button
-              onMouseEnter={() => setMenuOpen(true)}
-              onMouseLeave={() => setMenuOpen(false)}
-              className="flex items-center gap-2 font-mono text-[10px] uppercase tracking-[0.24em] text-[#8a8a8a] transition-colors hover:text-white"
-            >
-              <div className="flex h-4 w-4 items-center justify-center border border-[#2a2a2a]">
-                <Plus className={`h-2.5 w-2.5 transition-transform duration-300 ${menuOpen ? "rotate-45" : ""}`} />
-              </div>
-              Index
-            </button>
-
-            <AnimatePresence>
-              {menuOpen && (
-                <motion.div
-                  onMouseEnter={() => setMenuOpen(true)}
-                  onMouseLeave={() => setMenuOpen(false)}
-                  initial={{ opacity: 0, y: -4 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  exit={{ opacity: 0, y: -4 }}
-                  className="absolute left-0 top-full pt-4"
-                >
-                  <div className="w-48 border border-[#1c1c1c] bg-[#0f0f0f] p-1 shadow-2xl">
-                    {sections.map((s) => (
-                      <a
-                        key={s.id}
-                        href={`#${s.id}`}
-                        onClick={() => setMenuOpen(false)}
-                        className="block px-3 py-2 font-mono text-[9px] uppercase tracking-[0.2em] text-[#8a8a8a] transition-colors hover:bg-[#141414] hover:text-[#7b2fbe]"
-                      >
-                        {s.label}
-                      </a>
-                    ))}
-                  </div>
-                </motion.div>
+        {/* Desktop Nav - Unique Technical Strip */}
+        <nav className="hidden items-center gap-8 lg:flex">
+          {links.map((link, i) => (
+            <div key={link.href} className="flex items-center gap-8">
+              <a
+                href={link.href}
+                className="font-mono text-[10px] font-medium uppercase tracking-[0.2em] text-[#666] transition-all duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] hover:text-[#7b2fbe] hover:tracking-[0.35em]"
+              >
+                {link.label}
+              </a>
+              {i < links.length - 1 && (
+                <span className="h-1 w-1 bg-[#2a2a2a]" aria-hidden="true" />
               )}
-            </AnimatePresence>
-          </div>
-        </div>
+            </div>
+          ))}
+        </nav>
 
-        <button
-          type="button"
-          onClick={onOpenContact}
-          aria-haspopup="dialog"
-          className="group inline-flex shrink-0 items-center gap-2 border border-[#2a2a2a] bg-[#0f0f0f] px-3 py-2.5 font-mono text-[10px] font-medium uppercase tracking-[0.18em] text-white transition-colors hover:border-[#7b2fbe] hover:bg-[#141414] sm:px-4 sm:text-[11px] sm:tracking-[0.24em]"
-        >
-          Contact Us
-          <ArrowUpRight className="h-3.5 w-3.5 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
-        </button>
+        {/* Actions */}
+        <div className="flex items-center gap-4">
+          <button
+            type="button"
+            onClick={onOpenContact}
+            aria-haspopup="dialog"
+            className="group hidden sm:inline-flex shrink-0 items-center gap-2 border border-[#2a2a2a] bg-[#0f0f0f] px-4 py-2 font-mono text-[10px] font-medium uppercase tracking-[0.18em] text-white transition-colors hover:border-[#7b2fbe] hover:bg-[#141414]"
+          >
+            Contact Us
+            <ArrowUpRight className="h-3.5 w-3.5 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
+          </button>
+
+          {/* Mobile Menu Toggle */}
+          <button
+            type="button"
+            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+            aria-label="Toggle menu"
+            className="lg:hidden flex h-10 w-10 items-center justify-center border border-[#2a2a2a] bg-[#0f0f0f] text-white transition-colors hover:border-[#7b2fbe]"
+          >
+            {mobileMenuOpen ? <X className="h-4 w-4" /> : <Menu className="h-4 w-4" />}
+          </button>
+        </div>
       </div>
+
+      {/* Mobile Menu Overlay */}
+      <AnimatePresence>
+        {mobileMenuOpen && (
+          <motion.div
+            initial={{ opacity: 0, height: 0 }}
+            animate={{ opacity: 1, height: "auto" }}
+            exit={{ opacity: 0, height: 0 }}
+            transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
+            className="overflow-hidden border-b border-[#1c1c1c] bg-[#0a0a0a] lg:hidden"
+          >
+            <div className="flex flex-col p-6 pt-4">
+              <button
+                type="button"
+                onClick={() => {
+                  onOpenContact();
+                  setMobileMenuOpen(false);
+                }}
+                className="mb-8 flex items-center justify-between border border-[#2a2a2a] bg-[#0f0f0f] px-4 py-3 font-mono text-[11px] uppercase tracking-[0.24em] text-white transition-colors hover:border-[#7b2fbe]"
+              >
+                Contact Us
+                <ArrowUpRight className="h-4 w-4" />
+              </button>
+
+              <div className="space-y-4">
+                {links.map((link) => (
+                  <a
+                    key={link.href}
+                    href={link.href}
+                    onClick={() => setMobileMenuOpen(false)}
+                    className="block border-l border-[#1c1c1c] py-2 pl-4 font-mono text-[12px] uppercase tracking-[0.2em] text-[#8a8a8a] transition-all duration-300 hover:border-[#7b2fbe] hover:text-white hover:pl-5"
+                  >
+                    {link.label}
+                  </a>
+                ))}
+              </div>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </header>
   );
 }
