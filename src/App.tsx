@@ -86,12 +86,64 @@ function Wordmark({ size = 22, animate = false }: { size?: number; animate?: boo
 /* ------------------------------------------------------------------ */
 
 function Nav({ onOpenContact }: { onOpenContact: () => void }) {
+  const [menuOpen, setMenuOpen] = useState(false);
+
+  const sections = [
+    { id: "diagnosis", label: "01 Diagnosis" },
+    { id: "engines", label: "02 Engines" },
+    { id: "axis-audit", label: "03 Audit" },
+    { id: "starter-kit", label: "04 Starter" },
+    { id: "vault", label: "05 Vault" },
+  ];
+
   return (
     <header className="sticky top-0 z-50 border-b border-[#1c1c1c] bg-[#0a0a0a]/85 backdrop-blur-md">
       <div className="mx-auto flex max-w-7xl items-center justify-between gap-4 px-4 py-3 sm:px-6 sm:py-4 lg:px-10">
-        <a href="#top" className="group">
-          <Wordmark size={22} />
-        </a>
+        <div className="flex items-center gap-6">
+          <a href="#top" className="group">
+            <Wordmark size={22} />
+          </a>
+
+          {/* Minimal Section Switcher */}
+          <div className="relative hidden md:block">
+            <button
+              onMouseEnter={() => setMenuOpen(true)}
+              onMouseLeave={() => setMenuOpen(false)}
+              className="flex items-center gap-2 font-mono text-[10px] uppercase tracking-[0.24em] text-[#8a8a8a] transition-colors hover:text-white"
+            >
+              <div className="flex h-4 w-4 items-center justify-center border border-[#2a2a2a]">
+                <Plus className={`h-2.5 w-2.5 transition-transform duration-300 ${menuOpen ? "rotate-45" : ""}`} />
+              </div>
+              Index
+            </button>
+
+            <AnimatePresence>
+              {menuOpen && (
+                <motion.div
+                  onMouseEnter={() => setMenuOpen(true)}
+                  onMouseLeave={() => setMenuOpen(false)}
+                  initial={{ opacity: 0, y: -4 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: -4 }}
+                  className="absolute left-0 top-full pt-4"
+                >
+                  <div className="w-48 border border-[#1c1c1c] bg-[#0f0f0f] p-1 shadow-2xl">
+                    {sections.map((s) => (
+                      <a
+                        key={s.id}
+                        href={`#${s.id}`}
+                        onClick={() => setMenuOpen(false)}
+                        className="block px-3 py-2 font-mono text-[9px] uppercase tracking-[0.2em] text-[#8a8a8a] transition-colors hover:bg-[#141414] hover:text-[#7b2fbe]"
+                      >
+                        {s.label}
+                      </a>
+                    ))}
+                  </div>
+                </motion.div>
+              )}
+            </AnimatePresence>
+          </div>
+        </div>
 
         <button
           type="button"
